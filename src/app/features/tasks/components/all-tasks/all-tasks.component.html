@@ -1,0 +1,32 @@
+<main class="flex flex-col gap-3 px-[20%] py-5">
+  <!-- section 1 -->
+  <div>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select value="all">
+        <mat-option *ngFor="let status of statuses" [value]="status">
+          {{ status }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- section 2 -->
+  <div class="flex justify-start gap-3 flex-wrap">
+    <div class="card" *ngFor="let task of tasks">
+      <div class="img-card">
+        <img [src]="task.img" alt="task img" class="object-contain" />
+      </div>
+      <h1 class="text-xl mb-5 text-[#cb075a]">{{ task.title }}</h1>
+      <span class="text-xs mb-2 text-[#b1b0b2]"
+        >Dead-Line date:{{ task.deadLine }}</span
+      >
+      <span class="text-xs mb-2">desc</span>
+      <div class="flex gap-2">
+        <button class="btnDetails">Details</button>
+        <button class="btnComplete">Complete</button>
+      </div>
+    </div>
+  </div>
+  <!-- section 3 -->
+  <app-paginator (tasksToParent)="tasks = $event"></app-paginator>
+</main>
