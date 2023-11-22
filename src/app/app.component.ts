@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log(event.url);
         if (event.url === '/login') {
           this.isNavbarHidden = true;
         } else if (event.url === '/register') {

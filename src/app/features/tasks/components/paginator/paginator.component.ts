@@ -42,7 +42,6 @@ export class PaginatorComponent implements OnInit {
     this.tasks = [];
     this.tasks = this.tasksList.slice(pageIndex, endIndex);
     this.tasksToParent.emit(this.tasks);
-    console.log(this.tasks);
   }
   nextPage() {
     if (this.activePageNumber != this.pageNumbers.length) {

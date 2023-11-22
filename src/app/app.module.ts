@@ -10,6 +10,7 @@ import { RegisterComponent } from './core/components/register/register.component
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 import { TasksModule } from './features/tasks/tasks.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TasksModule } from './features/tasks/tasks.module';
     BrowserAnimationsModule,
     SharedModule,
     TasksModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
