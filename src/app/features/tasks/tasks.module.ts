@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskListPaginatorComponent } from './components/task-list-paginator/task-list-paginator.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { PaginatorComponent } from './components/paginator/paginator.component';
+import { TaskDetailsComponent } from './components/task-details/task-details.component';
 
 @NgModule({
-  declarations: [AllTasksComponent, PaginatorComponent],
+  declarations: [
+    TaskListComponent,
+    TaskListPaginatorComponent,
+    TaskDetailsComponent,
+  ],
   imports: [CommonModule, SharedModule],
-  exports: [AllTasksComponent],
 })
 export class TasksModule {}

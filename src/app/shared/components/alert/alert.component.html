@@ -1,0 +1,18 @@
+<main
+  class="flex rounded-md bg-green-500 text-white"
+  [style.background-color]="alertData.backgroundColor"
+  [style.color]="alertData.textColor"
+>
+  <span class="example-pizza-party" matSnackBarLabel>
+    {{ alertData.message }}
+  </span>
+  <span matSnackBarActions *ngIf="!alertData.isCloseBtnHidden">
+    <button
+      mat-button
+      matSnackBarAction
+      (click)="snackBarRef.dismissWithAction()"
+    >
+      <mat-icon class="text-white">close</mat-icon>
+    </button>
+  </span>
+</main>

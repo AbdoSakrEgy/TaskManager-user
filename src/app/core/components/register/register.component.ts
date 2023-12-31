@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { DataService } from '../../services/data.service';
+import { Store } from '@ngrx/store';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HostListener } from '@angular/core';
+import { updateTasks } from '../../store/actions/tasks.actions';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +16,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
+  innerWidth: any = screen.width;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.innerWidth = window.innerWidth;
+  }
   public registerForm = this.formBuilder.group(
     {
-      userName: ['', [Validators.required, isUserNameLengthValid()]],
+      userName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(10),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -27,30 +42,75 @@ export class RegisterComponent {
       ],
       confirmPassword: ['', [Validators.required]],
     },
-    { validator: passwordMatchValidator() }
+    { validator: this.checkIfMatchingPasswords('password', 'confirmPassword') }
   );
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+  isLoading = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    private _snackBar: MatSnackBar,
+    private store: Store,
+    private dataService: DataService
+  ) {}
   onRegister() {
-    this.router.navigateByUrl('/all-tasks');
+    this.isLoading = true;
+    this.errorMessage = '';
+    const body = {
+      email: this.registerForm.get('email')?.value!,
+      password: this.registerForm.get('password')?.value!,
+      username: this.registerForm.get('userName')?.value!,
+      role: 'user',
+    };
+    this.authService.register(body).subscribe({
+      next: (res: any) => {
+        this.router.navigateByUrl('/tasks');
+        this.tokenStorage.saveToken(res.token);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.dataService.getTasks(res.userId).subscribe({
+          next: (res: any) => {
+            this.store.dispatch(updateTasks({ payload: res.tasks.reverse() }));
+          },
+        });
+        this._snackBar.openFromComponent(AlertComponent, {
+          data: {
+            message: 'Account created successfully',
+            backgroundColor: '#16a34a',
+            textColor: '#ffffff',
+            isCloseBtnHidden: true,
+          },
+          duration: 2 * 1000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        this.isSignUpFailed = true;
+        this.isLoading = false;
+      },
+    });
   }
-}
-// custom validators
-export function isUserNameLengthValid() {
-  return (control: AbstractControl) => {
-    if (control.value.length < 4 || control.value.length > 10) {
-      return { lengthInvalid: true };
-    }
-    return null;
-  };
-}
-export function passwordMatchValidator() {
-  return (control: AbstractControl) => {
-    if (
-      control.get('password')?.value != control.get('confirmPassword')?.value
-    ) {
-      return { passwordMismatch: true };
-    }
-    return null;
-  };
+  // ---------------custom validator
+  checkIfMatchingPasswords(
+    passwordKey: string,
+    passwordConfirmationKey: string
+  ) {
+    return (group: FormGroup) => {
+      let passwordInput = group.controls[passwordKey],
+        passwordConfirmationInput = group.controls[passwordConfirmationKey];
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        return passwordConfirmationInput.setErrors({ notEquivalent: true });
+      } else {
+        return passwordConfirmationInput.setErrors(null);
+      }
+    };
+  }
+  // custom validator---------------
 }

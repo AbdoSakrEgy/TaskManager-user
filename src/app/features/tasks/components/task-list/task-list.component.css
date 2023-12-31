@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .task-list {
+    @apply flex flex-wrap justify-between gap-2 items-center;
+  }
+  .task {
+    @apply flex flex-col gap-2 p-5 border border-[#e0e0e0];
+  }
+}

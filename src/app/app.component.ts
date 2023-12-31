@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,10 @@ export class AppComponent implements OnInit {
   title = 'TasksApp-user';
   isNavbarHidden: boolean = false;
 
-  constructor(private route: Router) {}
+  constructor(private route: Router, private translate: TranslateService) {
+    translate.setDefaultLang('en');
+    translate.use('en');
+  }
   ngOnInit(): void {
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

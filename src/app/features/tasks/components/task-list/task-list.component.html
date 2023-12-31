@@ -1,0 +1,21 @@
+<main class="flex flex-col gap-5 px-10 py-5">
+  <div class="task-list">
+    <div class="task">
+      <span class="text-lg text-[#cb075a]">title</span>
+      <span class="text-sm text-[#b1b0b2]">
+        <strong>DeadLine Date: </strong>
+        10-5-2024
+      </span>
+      <span>1.00245</span>
+      <span class="flex justify-start items-center gap-2">
+        <button mat-stroked-button>
+          <a routerLink="/task-details">Details</a>
+        </button>
+        <button mat-raised-button color="warn" style="padding: 10px">
+          Complete
+        </button>
+      </span>
+    </div>
+  </div>
+  <app-task-list-paginator></app-task-list-paginator>
+</main>

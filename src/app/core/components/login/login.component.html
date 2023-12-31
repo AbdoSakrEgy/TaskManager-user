@@ -1,12 +1,17 @@
 <main class="flex justify-between items-center">
-  <div class="w-1/2 h-screen bg-black">
+  <div
+    [class]="{
+      'img-container-lg': innerWidth >= 768,
+      'img-container-md-sm': innerWidth < 768
+    }"
+  >
     <img
-      src="../../../../assets/img.jpg"
+      src="assets/images/img.jpg"
       alt="img"
       class="h-screen object-cover opacity-25"
     />
   </div>
-  <div class="w-1/2 h-screen flex justify-center items-center">
+  <div class="w-full h-screen flex justify-center items-center">
     <form
       [formGroup]="loginForm"
       (ngSubmit)="onLogin()"
@@ -17,6 +22,7 @@
       <mat-form-field class="example-full-width">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email" />
+        <mat-hint class="text-yellow-600">abdo&#64;gmail.com</mat-hint>
         <mat-error
           *ngIf="
             loginForm.get('email')?.touched &&
@@ -38,6 +44,7 @@
       <mat-form-field class="example-full-width">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" />
+        <mat-hint class="text-yellow-600">1234</mat-hint>
         <mat-error
           *ngIf="
             loginForm.get('password')?.touched &&
@@ -63,17 +70,23 @@
           Password should be less than 11 characters
         </mat-error>
       </mat-form-field>
-      <!--  -->
+
+      <span class="text-center py-3 text-red-500" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </span>
+      <!-- submit -->
       <span class="flex justify-center">
         <button
           type="submit"
           [class]="{
-            btnLoginValid: loginForm.valid,
-            btnLoginInValid: loginForm.invalid
+            btnLoginValid: loginForm.valid && !isLoading,
+            btnLoginInValid: loginForm.invalid,
+            btnLoading: isLoading
           }"
-          [disabled]="loginForm.invalid"
+          [disabled]="loginForm.invalid || isLoading"
         >
-          Login
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading">Loading...</span>
         </button>
       </span>
       <span class="flex justify-center">
