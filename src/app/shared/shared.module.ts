@@ -39,6 +39,7 @@ import { RouterModule } from '@angular/router';
     Spinner1Component,
     MatSelectModule,
     TranslateModule,
+    AlertComponent,
   ],
 })
 export class SharedModule {}

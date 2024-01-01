@@ -1,21 +1,49 @@
-<main class="flex flex-col gap-5 px-10 py-5">
+<main class="flex flex-col items-center gap-5 px-10 py-5">
+  <div
+    class="text-sm text-[#929194]"
+    *ngIf="tasksToView.length === 0 && !isLoading"
+  >
+    {{ "common.noTasks " | translate }}
+  </div>
   <div class="task-list">
-    <div class="task">
-      <span class="text-lg text-[#cb075a]">title</span>
-      <span class="text-sm text-[#b1b0b2]">
-        <strong>DeadLine Date: </strong>
-        10-5-2024
+    <div
+      class="task"
+      [class]="{
+        'task-lg': innerWidth >= 768,
+        'task-md-sm': innerWidth < 768
+      }"
+      *ngFor="let task of tasksToView"
+    >
+      <span
+        class="task-img-container"
+      >
+        <a routerLink="/task/{{ task._id }}">
+          <img
+            [src]="'https://crud-5swn.onrender.com/' + task?.image"
+            alt="img"
+            class="task-img"
+          />
+        </a>
       </span>
-      <span>1.00245</span>
+      <span class="text-lg text-[#cb075a]">{{ task.title }}</span>
+      <span class="text-sm text-[#929194]">
+        {{ "tasks.deadLine" | translate }}:
+        {{ task.deadline | date : "shortDate" }}
+      </span>
       <span class="flex justify-start items-center gap-2">
-        <button mat-stroked-button>
-          <a routerLink="/task-details">Details</a>
-        </button>
-        <button mat-raised-button color="warn" style="padding: 10px">
-          Complete
+        <a mat-stroked-button routerLink="/task/{{ task._id }}">
+          {{ "buttons.details" | translate }}
+        </a>
+        <button
+          mat-raised-button
+          style="padding: 10px; background-color: #cb075a; color: white"
+          (click)="completeTask(task._id)"
+        >
+          {{ "buttons.complete" | translate }}
         </button>
       </span>
     </div>
   </div>
+  <app-spinner1 *ngIf="isLoading"></app-spinner1>
   <app-task-list-paginator></app-task-list-paginator>
 </main>

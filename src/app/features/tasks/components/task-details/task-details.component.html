@@ -1,14 +1,23 @@
 <main class="flex flex-col gap-5 px-10 py-5">
-  <div class="max-h-40">
-    <img src="" alt="img" class="w-full" />
+  <div class="max-h-40 overflow-hidden object-cover">
+    <img
+      [src]="'https://crud-5swn.onrender.com/' + task?.image"
+      alt="img"
+      class="w-full h-40 object-cover"
+    />
   </div>
-  <div class="flex justify-between items-center">
-    <span class="text-lg text-[#cb075a]">title</span>
-    <button mat-raised-button color="warn" style="padding: 10px">
-      Complete
+  <div class="flex flex-wrap justify-between items-center">
+    <span class="text-lg text-[#cb075a]">{{ task?.title }}</span>
+    <button
+      mat-raised-button
+      style="padding: 10px; background-color: #cb075a; color: white"
+    >
+      {{ "buttons.complete" | translate }}
     </button>
   </div>
-  <div class="text-sm text-[#b1b0b2]">DeadLine Date: 10-5-2024</div>
+  <div class="text-sm text-[#929194]">
+    {{ "tasks.deadLine" | translate }}: 10-5-2024
+  </div>
   <hr />
-  <div>description</div>
+  <div>{{ task?.description }}</div>
 </main>

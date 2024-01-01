@@ -25,7 +25,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      retry(3),
+      retry(0),
       catchError((error) => {
         this._snackBar.openFromComponent(AlertComponent, {
           horizontalPosition: 'end',

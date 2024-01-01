@@ -6,7 +6,10 @@ import { TokenStorageService } from '../../services/token-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { Store } from '@ngrx/store';
-import { updateTasks } from '../../store/actions/tasks.actions';
+import {
+  updateIsLoadingTasks,
+  updateTasks,
+} from '../../store/actions/tasks.actions';
 import { DataService } from '../../services/data.service';
 import { HostListener } from '@angular/core';
 
@@ -54,11 +57,11 @@ export class LoginComponent implements OnInit {
       next: (res: any) => {
         this.router.navigateByUrl('/tasks');
         this.tokenStorageService.saveToken(res.token);
-        this.dataService.getTasks(res.userId).subscribe({
+        this.store.dispatch(updateIsLoadingTasks({ payload: true }));
+        this.dataService.getUserTasks(res.userId).subscribe({
           next: (res: any) => {
-            console.log(res);
-            
             this.store.dispatch(updateTasks({ payload: res.tasks.reverse() }));
+            this.store.dispatch(updateIsLoadingTasks({ payload: false }));
           },
         });
         this._snackBar.openFromComponent(AlertComponent, {

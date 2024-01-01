@@ -8,7 +8,10 @@ import { Store } from '@ngrx/store';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HostListener } from '@angular/core';
-import { updateTasks } from '../../store/actions/tasks.actions';
+import {
+  updateIsLoadingTasks,
+  updateTasks,
+} from '../../store/actions/tasks.actions';
 
 @Component({
   selector: 'app-register',
@@ -73,9 +76,11 @@ export class RegisterComponent {
         this.tokenStorage.saveToken(res.token);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.dataService.getTasks(res.userId).subscribe({
+        this.store.dispatch(updateIsLoadingTasks({ payload: true }));
+        this.dataService.getUserTasks(res.userId).subscribe({
           next: (res: any) => {
             this.store.dispatch(updateTasks({ payload: res.tasks.reverse() }));
+            this.store.dispatch(updateIsLoadingTasks({ payload: false }));
           },
         });
         this._snackBar.openFromComponent(AlertComponent, {

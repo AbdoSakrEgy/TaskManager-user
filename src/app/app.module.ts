@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { tasksReducer } from './core/store/reducers/tasks.reducers';
 import { paginationTasksReducer } from './core/store/reducers/paginationTasks.reducers';
+import { httpInterceptorProviders } from './core/interceptors';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { paginationTasksReducer } from './core/store/reducers/paginationTasks.re
       },
     }),
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

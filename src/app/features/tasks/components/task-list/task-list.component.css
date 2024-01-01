@@ -6,6 +6,18 @@
     @apply flex flex-wrap justify-between gap-2 items-center;
   }
   .task {
-    @apply flex flex-col gap-2 p-5 border border-[#e0e0e0];
+    @apply flex flex-col gap-2 p-5 rounded-md shadow-md border border-[#e0e0e0];
+  }
+  .task-lg {
+    /* @apply flex flex-col gap-2 p-5 rounded-md shadow-md border border-[#e0e0e0]; */
+  }
+  .task-md-sm {
+    @apply w-full;
+  }
+  .task-img-container {
+    @apply flex justify-center w-full h-40 overflow-hidden border rounded-md border-[#e0e0e0];
+  }
+  .task-img {
+    @apply w-[200px] h-40 object-fill;
   }
 }

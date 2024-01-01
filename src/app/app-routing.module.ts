@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'tasks', component: TaskListComponent },
-  { path: 'task-details', component: TaskDetailsComponent },
+  { path: 'task/:taskId', component: TaskDetailsComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];

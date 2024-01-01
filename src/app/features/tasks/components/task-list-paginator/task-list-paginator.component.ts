@@ -18,8 +18,6 @@ export class TaskListPaginatorComponent implements OnInit {
   activePageNumber = 1;
   isMainDataUpdated$ = this.store.select(selectTasks).subscribe({
     next: (res: any) => {
-      console.log(res);
-      
       this.store.select(selectPaginationTasks).subscribe({
         next: (res: any) => {
           this.tasks = res.tasks;

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { HostListener } from '@angular/core';
-import { selectIsLoadingTasks } from 'src/app/core/store/selectors/tasks.selectors';
-import { selectPaginationTasks } from 'src/app/core/store/selectors/paginationTasks.selectors';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from 'src/app/core/services/data.service';
 
 @Component({
   selector: 'app-task-details',
@@ -15,21 +14,24 @@ export class TaskDetailsComponent implements OnInit {
   onResize(event: any) {
     this.innerWidth = window.innerWidth;
   }
-  tasksToView: any[] = [];
-  isLoading = true;
-  isTasksLoading$ = this.store.select(selectIsLoadingTasks).subscribe({
-    next: (res: any) => {
-      this.isLoading = res;
-    },
-  });
-  isTasksToViewUpdated$ = this.store.select(selectPaginationTasks).subscribe({
-    next: (res: any) => {
-      console.log(res);
-      
-      this.tasksToView = res.tasks;
-    },
-  });
+  task: any;
 
-  constructor(private store: Store) {}
-  ngOnInit(): void {}
+  constructor(
+    private route: ActivatedRoute,
+    private dataService: DataService
+  ) {}
+  ngOnInit(): void {
+    this.getTaskDetails();
+  }
+  getTaskDetails() {
+    this.route.params.subscribe({
+      next: (params: any) => {
+        this.dataService.getTaskDetails(params['taskId']).subscribe({
+          next: (res: any) => {
+            this.task = res.tasks;
+          },
+        });
+      },
+    });
+  }
 }
