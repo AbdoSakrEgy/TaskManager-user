@@ -5,12 +5,18 @@ import { LoginComponent } from './core/components/login/login.component';
 import { RegisterComponent } from './core/components/register/register.component';
 import { TaskListComponent } from './features/tasks/components/task-list/task-list.component';
 import { TaskDetailsComponent } from './features/tasks/components/task-details/task-details.component';
+import { loggedinGuard } from './core/guards/loggedin.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [loggedinGuard] },
   { path: 'register', component: RegisterComponent },
-  { path: 'tasks', component: TaskListComponent },
-  { path: 'task/:taskId', component: TaskDetailsComponent },
+  { path: 'tasks', component: TaskListComponent, canActivate: [authGuard] },
+  {
+    path: 'task/:taskId',
+    component: TaskDetailsComponent,
+    canActivate: [authGuard],
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
