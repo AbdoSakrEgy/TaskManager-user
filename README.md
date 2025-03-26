@@ -1,4 +1,4 @@
-# TasksApp-user
+# TaskManager-user
 Angular CRUD app for user side.
 
 ## Demo
