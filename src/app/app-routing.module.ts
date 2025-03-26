@@ -9,7 +9,7 @@ import { loggedinGuard } from './core/guards/loggedin.guard';
 import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [loggedinGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'tasks', component: TaskListComponent, canActivate: [authGuard] },
   {
