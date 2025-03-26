@@ -1,8 +1,8 @@
-# TasksApp-user
+# TaskManager-user
 Angular CRUD app for user side.
 
 ## Demo
-Check out the live demo of the "TasksApp-user" project: [Live Demo](https://tasks-user-app-angular.netlify.app)
+Check out the live demo of the "TasksApp-user" project: [Live Demo](https://taskmanager-user.netlify.app/)
 
 ## Features
 - Create user account
