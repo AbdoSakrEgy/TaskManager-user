@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TasksApp-user": {
+    "TaskManager-user": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "TasksApp-user:build:production"
+              "browserTarget": "TaskManager-user:build:production"
             },
             "development": {
-              "browserTarget": "TasksApp-user:build:development"
+              "browserTarget": "TaskManager-user:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -67,7 +67,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TasksApp-user:build"
+            "browserTarget": "TaskManager-user:build"
           }
         },
         "test": {
